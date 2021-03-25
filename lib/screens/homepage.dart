@@ -36,17 +36,7 @@ class _HomepageState extends State<Homepage> {
                   child: ScrollConfiguration(
                     behavior: NoGlowBehaviour(),
                     child: ListView(
-                      children: [
-                        TaskCardWidget(
-                          title: 'Get Started!',
-                          desc:
-                              'Hello User! Welcome to this to-do app, this is a default task that you can edit or delete to start using the app.',
-                        ),
-                        TaskCardWidget(),
-                        TaskCardWidget(),
-                        TaskCardWidget(),
-                        TaskCardWidget(),
-                      ],
+                      children: [],
                     ),
                   ),
                 )

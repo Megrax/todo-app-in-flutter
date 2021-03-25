@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_in_flutter/database_helper.dart';
+import 'package:todo_in_flutter/models/task.dart';
 import 'package:todo_in_flutter/widgets.dart';
 
 class Taskpage extends StatefulWidget {
@@ -41,6 +43,17 @@ class _TaskpageState extends State<Taskpage> {
                         ),
                         Expanded(
                           child: TextField(
+                            onSubmitted: (value) async {
+                              if (value != "") {
+                                DatabaseHelper _dbHelper = DatabaseHelper();
+
+                                Task _newTask = Task(
+                                  title: value,
+                                );
+
+                                await _dbHelper.insertTask(_newTask);
+                              }
+                            },
                             decoration: InputDecoration(
                               hintText: 'Enter task title here...',
                               border: InputBorder.none,
