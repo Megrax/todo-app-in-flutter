@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_in_flutter/database_helper.dart';
 import 'package:todo_in_flutter/screens/taskpage.dart';
 import 'package:todo_in_flutter/widgets.dart';
 
@@ -8,6 +9,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  DatabaseHelper _dbHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,11 +36,22 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 Expanded(
-                  child: ScrollConfiguration(
-                    behavior: NoGlowBehaviour(),
-                    child: ListView(
-                      children: [],
-                    ),
+                  child: FutureBuilder(
+                    initialData: [],
+                    future: _dbHelper.getTasks(),
+                    builder: (context, snapshot) {
+                      return ScrollConfiguration(
+                        behavior: NoGlowBehaviour(),
+                        child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            return TaskCardWidget(
+                              title: snapshot.data[index].title,
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                 )
               ],
@@ -50,7 +64,9 @@ class _HomepageState extends State<Homepage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Taskpage()),
-                  );
+                  ).then((value) {
+                    setState(() {});
+                  });
                 },
                 child: Container(
                   width: 60,
